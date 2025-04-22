@@ -1,6 +1,6 @@
 package com.example.crud_pessoa.service;
 
-import com.example.crud_pessoa.model.PersonModel;
+import com.example.crud_pessoa.model.Person;
 import com.example.crud_pessoa.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,28 +14,28 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<PersonModel> listPerson() {
+    public List<Person> listPerson() {
         return personRepository.findAll();
     }
 
-    public PersonModel savePerson(PersonModel person) {
+    public Person savePerson(Person person) {
         if (personRepository.existsByCpf(person.getCpf())){
             throw new RuntimeException("CPF already registered");
         }
-        person.getAdress().forEach(a -> a.setPerson(person));
+        person.getAddresses().forEach(a -> a.setPerson(person));
         return personRepository.save(person);
     }
 
-    public PersonModel updatePerson(Long id, PersonModel updatedPerson){
-        PersonModel person = personRepository.findById(id).orElseThrow();
+    public Person updatePerson(Long id, Person updatedPerson){
+        Person person = personRepository.findById(id).orElseThrow();
         person.setName(updatedPerson.getName());
         person.setDateOfBirth(updatedPerson.getDateOfBirth());
         person.setCpf(updatedPerson.getCpf());
 
-        person.getAdress().clear();
-        updatedPerson.getAdress().forEach(a -> {
+        person.getAddresses().clear();
+        updatedPerson.getAddresses().forEach(a -> {
             a.setPerson(person);
-            person.getAdress().add(a);
+            person.getAddresses().add(a);
         });
 
         return personRepository.save(person);
