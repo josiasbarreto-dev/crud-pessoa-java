@@ -2,12 +2,15 @@ package com.example.crud_pessoa.controllers;
 
 import com.example.crud_pessoa.model.Person;
 import com.example.crud_pessoa.service.PersonService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/persons")
@@ -17,26 +20,31 @@ public class PersonController {
     private PersonService service;
 
     @GetMapping
+    @Operation(summary = "List all people and their respective addresses")
     public List<Person> List() {
         return service.listPerson();
     }
 
     @PostMapping
-    public Person Create(@Valid @RequestBody Person person){
+    @Operation(summary = "Create a new person with one or more addresses")
+    public Person Create(@Valid @RequestBody Person person) {
         return service.savePerson(person);
     }
 
     @PutMapping("/{id}")
-    public Person Update(@PathVariable Long id, @Valid @RequestBody Person person){
+    @Operation(summary = "Update a person's details and/or their address(es)")
+    public Person Update(@PathVariable Long id, @Valid @RequestBody Person person) {
         return service.updatePerson(id, person);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a person and all their addresses")
     public void Delete(@PathVariable Long id) {
         service.deletePerson(id);
     }
 
     @GetMapping("/{id}/age")
+    @Operation(summary = "Show Person's Age")
     public int Age(@PathVariable Long id) {
         Person person = service.listPerson().stream().filter(pe -> pe.getId().equals(id)).findFirst().orElseThrow();
         return service.calculateAge(person.getDateOfBirth());
