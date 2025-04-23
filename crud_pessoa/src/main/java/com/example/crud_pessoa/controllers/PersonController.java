@@ -5,6 +5,9 @@ import com.example.crud_pessoa.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,14 @@ public class PersonController {
     @Operation(summary = "List all people and their respective addresses")
     public List<Person> List() {
         return service.listPerson();
+    }
+
+    @GetMapping("/paged")
+    @Operation(summary = "List all people paginated")
+    public Page<Person> listPaged(
+            @PageableDefault(size = 5, sort = "name") Pageable pageable
+    ) {
+        return service.listPaged(pageable);
     }
 
     @PostMapping

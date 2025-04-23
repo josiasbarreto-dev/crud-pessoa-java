@@ -3,6 +3,8 @@ package com.example.crud_pessoa.service;
 import com.example.crud_pessoa.model.Person;
 import com.example.crud_pessoa.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,6 +18,10 @@ public class PersonService {
 
     public List<Person> listPerson() {
         return personRepository.findAll();
+    }
+
+    public Page<Person> listPaged(Pageable pageable) {
+        return personRepository.findAll(pageable);
     }
 
     public Person savePerson(Person person) {
