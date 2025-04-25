@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,9 @@ public class PersonController {
 
     @PostMapping
     @Operation(summary = "Create a new person with one or more addresses")
-    public Person Create(@Valid @RequestBody Person person) {
-        return service.savePerson(person);
+    public ResponseEntity<Person> Create(@Valid @RequestBody Person person) {
+        Person savedPerson  = service.savePerson(person);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPerson);
     }
 
     @PutMapping("/{id}")

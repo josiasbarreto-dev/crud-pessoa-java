@@ -1,5 +1,6 @@
 package com.example.crud_pessoa.service;
 
+import com.example.crud_pessoa.exception.CpfAlreadyExistsException;
 import com.example.crud_pessoa.model.Person;
 import com.example.crud_pessoa.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,8 @@ public class PersonService {
 
     public Person savePerson(Person person) {
         if (personRepository.existsByCpf(person.getCpf())){
-            throw new RuntimeException("CPF already registered");
+            throw new CpfAlreadyExistsException("There is already a person registered with the CPF");
         }
-        person.getAddresses().forEach(a -> a.setPerson(person));
         return personRepository.save(person);
     }
 
@@ -47,7 +47,10 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public void deletePerson(Long id){
+public void deletePerson(Long id) {
+        if (!personRepository.existsById(id)) {
+            throw new RuntimeException("Pessoa não encontrada");
+        }
         personRepository.deleteById(id);
     }
 
