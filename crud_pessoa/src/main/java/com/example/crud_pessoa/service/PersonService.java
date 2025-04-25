@@ -47,7 +47,10 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public void deletePerson(Long id){
+    public void deletePerson(Long id) {
+        if (!personRepository.existsById(id)) {
+            throw new RuntimeException("Pessoa não encontrada");
+        }
         personRepository.deleteById(id);
     }
 
