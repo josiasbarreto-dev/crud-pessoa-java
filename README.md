@@ -62,4 +62,4 @@ Uma **Pessoa** pode ter **um ou mais Endereços**, caracterizando um relacioname
   Ou, se preferir, abra o projeto em uma IDE como IntelliJ ou Eclipse e execute a classe Application.java
 3. **Acesse a aplicação:**
   ```bash
-  API Base: http://localhost:8080/persons
+    API Base: http://localhost:8080/persons
