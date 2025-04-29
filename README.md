@@ -13,7 +13,7 @@ Este projeto é um desafio técnico que implementa uma API REST utilizando Java 
 ### Endereço
 - `id`: Long  
 - `rua`: String  
-- `numero`: String  
+- `numero`: Integer  
 - `bairro`: String  
 - `cidade`: String  
 - `estado`: String  
